@@ -1,19 +1,23 @@
 flag_data_exist=False
 
 import os
+import requests
 
-def download_data(version:str)->str:
-    root_path=os.getcwd() # should be path of `index.mjs`
+def download_data(version:str,endpoint="jsdeliver")->str:
+    PACKAGE_NAME="name-suggestion-index"
+    FILE_PATH="/dist/nsi.min.json"
+    root_path=""
 
-    version="latest"
-    endpoint="npmjs" # npmjs/jsdeliver/unpkg/etc.
-
-    server=""
-    url="" # should be gen by server and package name
-
-    url="https://registry.npmjs.org/name-suggestion-index/-/name-suggestion-index-6.0.20230123.tgz"
-    # unzip this tgz file should use which lib?
+    endpoint_list={
+        "jsdeliver":"https://cdn.jsdelivr.net/npm/",
+        "unpkg":"https://unpkg.com/"
+    }
     
+    def url_gen(endpoint:str, version:str)->str:
+        return endpoint_list[endpoint]+PACKAGE_NAME+"@"+version+FILE_PATH
+    
+    min_json_file=open("nsi.min.json","w",encoding="utf-8")
+    min_json_file.write(requests.get(url=url_gen(endpoint=endpoint,version=version)).text)
 
     return root_path
 
