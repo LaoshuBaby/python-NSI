@@ -5,7 +5,7 @@ import requests
 
 
 class NSI:
-    def __init__(self):
+    def __init__(self, path, endpoint, version, NSI_object):
         root_path = os.path.join(os.getcwd(), "..", "data", "nsi.min.json")
         flag_data_exist = True
         if os.path.exists(root_path) != True:
@@ -53,37 +53,42 @@ class NSI:
         return root_path
 
     def get_meta(self, output=True):
-        if output==True:
+        if output == True:
             from pprint import pprint
+
             pprint(self.meta)
         return self.meta
 
     def get_catagory(self, output=True):
-        catagory_list=[]
+        catagory_list = []
         for key in self.nsi:
-            catagory_len=len(self.nsi[key])
-            catagory_list.append((key,catagory_len))
-        if output==True:
+            catagory_len = len(self.nsi[key]["items"])
+            catagory_list.append((key, catagory_len))
+        if output == True:
             from pprint import pprint
+
             pprint(catagory_list)
         return catagory_list
 
     def get_catagory_key(self, output=True):
-        catagory_key_list=[]
+        catagory_key_list = []
         for key in self.nsi:
             catagory_key_list.append(key)
         if output == True:
             from pprint import pprint
+
             pprint(catagory_key_list)
         return catagory_key_list
 
-
-
     def get_catagory_num(self, output=False):
-        catagory_num=len(self.get_catagory_key(output=False))
-        if output==True:
+        catagory_num = len(self.get_catagory_key(output=False))
+        if output == True:
             print(catagory_num)
         return catagory_num
+
+    def split(self, locationset):
+        # return a new NSI object
+        pass
 
 
 if __name__ == "__main__":
